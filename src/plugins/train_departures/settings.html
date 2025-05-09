@@ -1,0 +1,60 @@
+{% extends "base_template.html" %}
+
+{% block settings_content %}
+<div class="form-group">
+    <label for="station_code">Station Code (CRS or TIPLOC)</label>
+    <input type="text" class="form-control" id="station_code" name="station_code" placeholder="e.g. KGX, PAD, EUS" required>
+    <small class="form-text text-muted">Enter the three-letter CRS code (e.g. KGX for London King's Cross) or TIPLOC code for the station.</small>
+</div>
+
+<div class="form-group">
+    <label for="filter_station">Filter by Destination (Optional)</label>
+    <input type="text" class="form-control" id="filter_station" name="filter_station" placeholder="e.g. EDB, YRK">
+    <small class="form-text text-muted">Optionally enter a station code to only show trains to that destination.</small>
+</div>
+
+<div class="form-group">
+    <label for="update_frequency">Update Frequency (minutes)</label>
+    <input type="number" class="form-control" id="update_frequency" name="update_frequency" min="1" max="60" value="5">
+    <small class="form-text text-muted">How often to refresh the train data.</small>
+</div>
+
+{% include "base_plugin/style_settings.html" %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (loadPluginSettings) {
+            document.getElementById('station_code').value = pluginSettings.station_code || '';
+            document.getElementById('filter_station').value = pluginSettings.filter_station || '';
+            document.getElementById('update_frequency').value = pluginSettings.update_frequency || 5;
+            
+            // Load style settings
+            if (pluginSettings.text_color) {
+                document.getElementById('text_color').value = pluginSettings.text_color;
+            }
+            
+            if (pluginSettings.background_type) {
+                document.querySelector(`input[name="background_type"][value="${pluginSettings.background_type}"]`).checked = true;
+                toggleBackgroundOptions();
+            }
+            
+            if (pluginSettings.background_color) {
+                document.getElementById('background_color').value = pluginSettings.background_color;
+            }
+            
+            if (pluginSettings.background_image) {
+                document.getElementById('current_background').style.display = 'block';
+                document.getElementById('current_background_image').src = pluginSettings.background_image;
+            }
+            
+            if (pluginSettings.frame_style) {
+                document.querySelector(`input[name="frame_style"][value="${pluginSettings.frame_style}"]`).checked = true;
+            }
+            
+            if (pluginSettings.margin !== undefined) {
+                document.getElementById('margin').value = pluginSettings.margin;
+            }
+        }
+    });
+</script>
+{% endblock %} 

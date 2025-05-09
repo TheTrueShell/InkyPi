@@ -1,0 +1,172 @@
+.train-departures {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    padding: 15px;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.header h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+    color: #666;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #666;
+}
+
+.departures-list {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.departures-header {
+    display: grid;
+    grid-template-columns: 0.6fr 1.5fr 0.5fr 0.7fr;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.departure-row {
+    display: grid;
+    grid-template-columns: 0.6fr 1.5fr 0.5fr 0.7fr;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.departure-row.cancelled {
+    background-color: rgba(255, 0, 0, 0.05);
+}
+
+.time-col, .destination-col, .platform-col, .status-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.time {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.train-id {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.destination {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.operator {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.platform {
+    font-weight: 600;
+    font-size: 15px;
+    padding: 2px 6px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    text-align: center;
+    width: fit-content;
+}
+
+.platform.confirmed {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+}
+
+.platform-tba {
+    font-size: 12px;
+    color: #666;
+}
+
+.on-time {
+    color: #00897b;
+    font-weight: 600;
+}
+
+.delayed {
+    color: #f57c00;
+    font-weight: 600;
+}
+
+.early {
+    color: #1976d2;
+    font-weight: 600;
+}
+
+.cancelled {
+    color: #d32f2f;
+    font-weight: 600;
+}
+
+.cancel-reason {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.no-departures {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #666;
+    font-style: italic;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+    .departures-header, .departure-row {
+        grid-template-columns: 0.7fr 1.5fr 0.6fr;
+        font-size: 12px;
+    }
+    
+    .status-col {
+        display: none;
+    }
+    
+    .time {
+        font-size: 14px;
+    }
+    
+    .destination {
+        font-size: 13px;
+    }
+    
+    .platform {
+        font-size: 13px;
+    }
+} 

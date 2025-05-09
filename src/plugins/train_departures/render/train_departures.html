@@ -1,0 +1,74 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="train-departures">
+    <div class="header">
+        <h1>{{ station_name }}</h1>
+        {% if filter_info %}
+        <h2>{{ filter_info }}</h2>
+        {% endif %}
+        <div class="time-info">
+            <span class="date">{{ current_date }}</span>
+            <span class="time">{{ current_time }}</span>
+        </div>
+    </div>
+
+    <div class="departures-list">
+        {% if departures|length == 0 %}
+        <div class="no-departures">
+            <p>No departures found for this station.</p>
+        </div>
+        {% else %}
+        <div class="departures-header">
+            <div class="time-col">Time</div>
+            <div class="destination-col">Destination</div>
+            <div class="platform-col">Platform</div>
+            <div class="status-col">Status</div>
+        </div>
+        
+        {% for departure in departures %}
+        <div class="departure-row {% if departure.is_cancelled %}cancelled{% endif %}">
+            <div class="time-col">
+                <span class="time">{{ departure.time }}</span>
+                {% if departure.train_id %}
+                <span class="train-id">{{ departure.train_id }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="destination-col">
+                <span class="destination">{{ departure.destination }}</span>
+                <span class="operator">{{ departure.operator }}</span>
+            </div>
+            
+            <div class="platform-col">
+                {% if departure.platform %}
+                <span class="platform {% if departure.platform_confirmed %}confirmed{% endif %}">{{ departure.platform }}</span>
+                {% else %}
+                <span class="platform-tba">TBA</span>
+                {% endif %}
+            </div>
+            
+            <div class="status-col">
+                {% if departure.is_cancelled %}
+                <span class="cancelled">Cancelled</span>
+                {% if departure.cancel_reason %}
+                <span class="cancel-reason">{{ departure.cancel_reason }}</span>
+                {% endif %}
+                {% elif departure.lateness > 0 %}
+                <span class="delayed">{{ departure.lateness }} min late</span>
+                {% elif departure.lateness < 0 %}
+                <span class="early">{{ departure.lateness|abs }} min early</span>
+                {% else %}
+                <span class="on-time">On time</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    
+    <div class="footer">
+        <span>Data from Realtime Trains</span>
+    </div>
+</div>
+{% endblock %} 
