@@ -1,0 +1,70 @@
+<!-- Common Style Settings -->
+<div class="form-group">
+    <label for="textColor">Text Colour</label>
+    <input type="color" class="form-control" id="textColor" name="textColor" value="#000000">
+</div>
+
+<div class="form-group">
+    <label>Background</label>
+    <div class="radio-group">
+        <div class="radio-option">
+            <input type="radio" id="bgColor" name="backgroundOption" value="color" checked>
+            <label for="bgColor">Colour</label>
+        </div>
+        <div class="radio-option">
+            <input type="radio" id="bgImage" name="backgroundOption" value="image">
+            <label for="bgImage">Image</label>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="backgroundColor">Background Colour</label>
+    <input type="color" class="form-control" id="backgroundColor" name="backgroundColor" value="#FFFFFF">
+</div>
+
+<div class="form-group">
+    <label for="imageUpload">Background Image</label>
+    <div class="file-upload-container">
+        <label id="uploadButtonLabel" for="imageUpload" class="file-upload-button">
+            Choose Image
+        </label>
+        <input type="file" id="imageUpload" name="backgroundImage" accept="image/*" onchange="showFileName()" clear-on-submit>
+        <div id="fileName" class="file-name">
+            <span id="fileNameText"></span>
+            <button type="button" id="removeFileButton" class="remove-file-button" onclick="removeFile()">✕</button>
+        </div>
+    </div>
+    <div id="hiddenFileInput"></div>
+</div>
+
+<div class="form-group">
+    <label for="margin">Margin (px)</label>
+    <input type="number" class="form-control" id="margin" name="margin" min="0" max="50" value="5">
+</div>
+
+<script>
+function toggleBackgroundOptions() {
+    const colorRadio = document.getElementById('bgColor');
+    const colorInput = document.getElementById('backgroundColor');
+    const imageUpload = document.getElementById('imageUpload');
+    const uploadLabel = document.getElementById('uploadButtonLabel');
+    
+    if (colorRadio.checked) {
+        colorInput.disabled = false;
+        imageUpload.disabled = true;
+        uploadLabel.classList.add('disabled');
+    } else {
+        colorInput.disabled = true;
+        imageUpload.disabled = false;
+        uploadLabel.classList.remove('disabled');
+    }
+}
+
+document.querySelectorAll('input[name="backgroundOption"]').forEach(radio => {
+    radio.addEventListener('change', toggleBackgroundOptions);
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', toggleBackgroundOptions);
+</script> 
