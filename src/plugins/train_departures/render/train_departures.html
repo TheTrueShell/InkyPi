@@ -14,7 +14,11 @@
     </div>
 
     <div class="departures-list">
-        {% if departures|length == 0 %}
+        {% if error_message %}
+        <div class="error-message">
+            <p>{{ error_message }}</p>
+        </div>
+        {% elif departures|length == 0 %}
         <div class="no-departures">
             <p>No departures found for this station.</p>
         </div>

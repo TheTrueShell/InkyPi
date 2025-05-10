@@ -71,17 +71,32 @@ class TrainDepartures(BasePlugin):
         else:
             url = f"https://api.rtt.io/api/v1/json/search/{station_code}"
         
+        logger.info(f"Fetching train departures for station code: {station_code}")
+        
         try:
             # Make the API request
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=10)
             
             if not 200 <= response.status_code < 300:
-                logger.error(f"Failed to retrieve train departures: {response.content}")
-                raise RuntimeError("Failed to retrieve train departures. Please check your station code and API credentials.")
+                logger.error(f"Failed to retrieve train departures: HTTP {response.status_code} - {response.content}")
+                return None
             
-            return response.json()
+            data = response.json()
+            
+            # Validate the response contains the expected data
+            if 'location' not in data:
+                logger.error(f"Invalid response format from API: 'location' field missing")
+                return None
+                
+            return data
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Network error retrieving train departures: {str(e)}")
+            return None
+        except ValueError as e:
+            logger.error(f"JSON parsing error: {str(e)}")
+            return None
         except Exception as e:
-            logger.error(f"Error retrieving train departures: {str(e)}")
+            logger.error(f"Unexpected error retrieving train departures: {str(e)}")
             return None
     
     def parse_departures_data(self, data, tz):
@@ -108,7 +123,19 @@ class TrainDepartures(BasePlugin):
         
         # Parse services (limit to 5)
         departures = []
-        for service in data.get('services', [])[:5]:
+        services = data.get('services')
+        if not services:
+            logger.error(f"No services found in data for station: {location_name}")
+            return {
+                'station_name': location_name,
+                'filter_info': filter_info,
+                'departures': [],
+                'current_time': datetime.now(tz).strftime('%H:%M'),
+                'current_date': datetime.now(tz).strftime('%A, %d %B %Y'),
+                'error_message': 'No train services found'
+            }
+        
+        for service in services[:5]:
             loc_detail = service.get('locationDetail', {})
             
             # Get departure time
