@@ -71,16 +71,31 @@ class TrainDepartures(BasePlugin):
         else:
             url = f"https://api.rtt.io/api/v1/json/search/{station_code}"
         
-        # Make the API request
-        response = requests.get(url, headers=headers)
-        
-        if not 200 <= response.status_code < 300:
-            logger.error(f"Failed to retrieve train departures: {response.content}")
-            raise RuntimeError("Failed to retrieve train departures. Please check your station code and API credentials.")
-        
-        return response.json()
+        try:
+            # Make the API request
+            response = requests.get(url, headers=headers)
+            
+            if not 200 <= response.status_code < 300:
+                logger.error(f"Failed to retrieve train departures: {response.content}")
+                raise RuntimeError("Failed to retrieve train departures. Please check your station code and API credentials.")
+            
+            return response.json()
+        except Exception as e:
+            logger.error(f"Error retrieving train departures: {str(e)}")
+            return None
     
     def parse_departures_data(self, data, tz):
+        if data is None:
+            logger.error("No train departures data received from API")
+            return {
+                'station_name': 'Data Unavailable',
+                'filter_info': None,
+                'departures': [],
+                'current_time': datetime.now(tz).strftime('%H:%M'),
+                'current_date': datetime.now(tz).strftime('%A, %d %B %Y'),
+                'error_message': 'Unable to retrieve train information'
+            }
+    
         location_name = data.get('location', {}).get('name', 'Unknown Station')
         
         # Get filter information if available
