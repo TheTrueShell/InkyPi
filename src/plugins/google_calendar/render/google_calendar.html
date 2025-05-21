@@ -1,0 +1,26 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="google-calendar-plugin">
+    <div class="calendar-events">
+        <h2>Upcoming Events</h2>
+        {% if events %}
+            <ul>
+                {% for event in events %}
+                <li>
+                    <strong>{{ event.summary }}</strong><br>
+                    {% if event.start and event.end %}
+                        <span>{{ event.start }} - {{ event.end }}</span><br>
+                    {% endif %}
+                    {% if event.description %}
+                        <p>{{ event.description }}</p>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No upcoming events.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

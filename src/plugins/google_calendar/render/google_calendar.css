@@ -1,0 +1,66 @@
+/* Specific styles for the Google Calendar Plugin */
+
+.google-calendar-plugin {
+    /* This class is on the root div in google_calendar.html, 
+       can be used for overall plugin container styling if needed beyond .calendar-events */
+}
+
+.calendar-events {
+    font-family: 'Jost', sans-serif; /* Using Jost as suggested, assuming it's loaded by plugin.html */
+    padding: 10px;
+    color: #333333; /* Dark grey for general text, good contrast */
+    /* width: 100%; Ensure it uses available space, can be adjusted if fixed width is needed */
+}
+
+.calendar-events h2 {
+    font-size: 1.5em; /* Relative font size */
+    font-weight: bold; /* Ensure heading is distinct */
+    margin-bottom: 10px;
+    color: #000000; /* Pure black for headings for max contrast */
+}
+
+.calendar-events ul {
+    list-style-type: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0; /* Remove default margins */
+}
+
+.calendar-events li {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #DDDDDD; /* Light grey border for separation, slightly darker than #eee for better visibility */
+}
+
+/* Remove border from the last item to avoid double borders if this is the last element in a container */
+.calendar-events li:last-child {
+    border-bottom: none;
+}
+
+.calendar-events li strong { /* Event Summary */
+    font-size: 1.2em; /* Slightly larger for emphasis */
+    font-weight: bold;
+    display: block; /* Make it take its own line */
+    margin-bottom: 5px;
+    color: #111111; /* Very dark grey, almost black */
+}
+
+.calendar-events li span { /* Event Time */
+    font-size: 0.9em;
+    color: #444444; /* Medium-dark grey for secondary info */
+    display: block; /* Take its own line */
+    margin-bottom: 5px;
+}
+
+.calendar-events li p { /* Event Description */
+    font-size: 1em; /* Standard text size */
+    margin-top: 5px;
+    color: #333333; /* Consistent with general text color */
+    /* For long descriptions, consider text-overflow or max-height if needed */
+}
+
+/* 
+   Note: Base styles like background color, overall text color, etc., 
+   are often controlled by the `plugin.html` template and common style settings.
+   This CSS focuses on the specific structure of the calendar events.
+   The use of `em` for font sizes allows for better scalability with base font size changes.
+*/

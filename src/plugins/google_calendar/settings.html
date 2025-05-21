@@ -1,0 +1,56 @@
+<div class="settings-container">
+    <h2>Google Calendar Settings</h2>
+
+    <form id="google-calendar-settings-form">
+        <div class="form-group">
+            <label for="api_key">Google Calendar API Key:</label>
+            <input type="text" id="api_key" name="api_key" class="form-control">
+            <small>Enter your Google Calendar API Key.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="calendar_id">Calendar ID:</label>
+            <input type="text" id="calendar_id" name="calendar_id" class="form-control" value="primary">
+            <small>Enter the Calendar ID to display (e.g., 'primary' or an email address). Default: 'primary'.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="max_events">Number of events to display:</label>
+            <input type="number" id="max_events" name="max_events" class="form-control" value="5" min="1">
+            <small>Maximum number of upcoming events to show. Default: 5.</small>
+        </div>
+
+        <!-- Placeholder for common style settings -->
+        <!-- These will be dynamically loaded if style_settings is True in the plugin's Python class -->
+        <div id="common-style-settings-placeholder">
+            <!-- Common style settings will be injected here by the main application -->
+            <!-- Example: -->
+            <!--
+            <h3>Style Settings</h3>
+            <div class="form-group">
+                <label for="text_color">Text Color:</label>
+                <input type="color" id="text_color" name="text_color" class="form-control" value="#000000">
+            </div>
+            -->
+        </div>
+
+    </form>
+</div>
+
+<script>
+    // Function to load plugin-specific settings
+    if (typeof loadPluginSettings === 'function') {
+        // If pluginSettings are available (i.e., editing an existing plugin)
+        if (typeof pluginSettings !== 'undefined' && pluginSettings) {
+            document.getElementById('api_key').value = pluginSettings.api_key || '';
+            document.getElementById('calendar_id').value = pluginSettings.calendar_id || 'primary';
+            document.getElementById('max_events').value = pluginSettings.max_events || '5';
+            // Note: Common style settings are typically handled by the core application's
+            // settings injection mechanism based on `style_settings=True`.
+            // No specific pre-population is usually needed here for them,
+            // as the core app handles their values.
+        }
+    } else {
+        console.warn("loadPluginSettings function not found. Settings population might not work as expected.");
+    }
+</script>
